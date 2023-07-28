@@ -1,0 +1,15 @@
+<h1>Mensajes Encriptados</h1>
+
+<form #formFile="ngForm">
+    <div class="text-center">
+        <input class="form-control" type="file" 
+                (change)="onFileSelected($event)">
+      
+        <button (click)="onProcessFile()" 
+            class="btn btn-success">
+            Procesa Archivo
+        </button>
+    </div>
+
+
+</form>
