@@ -83,11 +83,15 @@ export class EncryptedMsgComponent implements OnInit {
         this.errors.push("El archivo esta vacio");     
         this.response.push('NO');
         this.response.push('NO');       
-      } 
+      }
+      
+      if(this.response.length > 0)
+        this.writeFile();
     
       this.strErrors = this.errors.join("<br>");
       this.strResp = this.response.join("<br>");
- 
+
+
     }
 
     readFileContent(file: File): Promise<string> { 
@@ -104,6 +108,18 @@ export class EncryptedMsgComponent implements OnInit {
         reader.readAsText(file); 
       }); 
     }
+
+    writeFile(){
+
+      let txtResp = this.response.join("\n");
+      const a = document.createElement("a");
+      const respFile = new Blob([txtResp], { type: 'text/plain' });
+      const url = URL.createObjectURL(respFile);
+      a.href = url;
+      a.download = 'respuesta.txt';
+      a.click();
+      URL.revokeObjectURL(url);
+    }    
 
   /**
    * Inician funciones para validar las lineas
