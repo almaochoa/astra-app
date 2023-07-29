@@ -1,15 +1,23 @@
-<h1>Mensajes Encriptados</h1>
-
-<form #formFile="ngForm">
-    <div class="text-center">
-        <input class="form-control" type="file" 
-                (change)="onFileSelected($event)">
-      
-        <button (click)="onProcessFile()" 
-            class="btn btn-success">
-            Procesa Archivo
-        </button>
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col-md-6 col-sm-12">
+                <div class="mb-3">
+                <label for="formFile" class="form-label">Selecciona el archivo</label>
+                <input (change)="this.onFileSelected($event)" class="form-control" type="file" id="formFile">
+                <button (click)="this.onProcessFile()" type="button" class="btn btn-primary mt-3">Procesar</button>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <div class="mb-3">
+                    <label for="respuesta" class="form-label">Respuesta</label>
+                    <div class="divMsgs" id="resp" contentEditable="true" [innerHTML]="strResp"></div>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="mb-3">
+                    <label for="errores" class="form-label text-danger">Errores</label>
+                    <div class="divMsgs" id="errors"  [innerHTML]="strErrors"></div>
+                </div>
+            </div>
+        </div>
     </div>
-
-
-</form>

@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-//import {MatIconModule} from '@angular/material/icon';
-//import { File } from './../../models/file'
 
 @Component({
   selector: 'app-encrypted-msg',
   templateUrl: './encrypted-msg.component.html',
-  styleUrls: ['./encrypted-msg.component.scss'],
-  //imports:[MatIconModule],
+  styleUrls: ['./encrypted-msg.component.scss']
 })
 
 export class EncryptedMsgComponent implements OnInit {
@@ -17,6 +14,8 @@ export class EncryptedMsgComponent implements OnInit {
     public lenM1: number=0;
     public lenM2: number=0;
     public lenN: number=0;
+    public strResp: string = "";
+    public strErrors:string  = "";
   
     constructor(){
          this.content = "";
@@ -36,7 +35,8 @@ export class EncryptedMsgComponent implements OnInit {
 
       let file = event.target.files[0];
       await this.readFileContent(file);
-     
+      this.strErrors = "";
+      this.strResp = "";
     } 
 
     onProcessFile(){
@@ -85,8 +85,9 @@ export class EncryptedMsgComponent implements OnInit {
         this.response.push('NO');       
       } 
     
-      console.log('errors' , this.errors);
-      console.log('respuesta', this.response);
+      this.strErrors = this.errors.join("<br>");
+      this.strResp = this.response.join("<br>");
+ 
     }
 
     readFileContent(file: File): Promise<string> { 
