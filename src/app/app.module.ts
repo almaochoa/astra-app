@@ -5,11 +5,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { EncryptedMsgComponent } from './components/encrypted-msg/encrypted-msg.component';
+import { GamesComponent } from './components/games/games.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    EncryptedMsgComponent
+    EncryptedMsgComponent,
+    GamesComponent
   ],
   imports: [
     BrowserModule,
