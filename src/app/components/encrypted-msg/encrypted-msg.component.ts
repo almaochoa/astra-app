@@ -206,7 +206,5 @@ export class EncryptedMsgComponent implements OnInit {
     const regex = new RegExp(msgExpReg);
     return regex.test(msgEncrypted);
   }
-
-
   
 }

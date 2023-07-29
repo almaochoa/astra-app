@@ -3,7 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { EncryptedMsgComponent } from './components/encrypted-msg/encrypted-msg.component';
 
 const routes: Routes = [
-  {path: 'encrypted', component:EncryptedMsgComponent}
+  {path: 'encrypted', component:EncryptedMsgComponent},
+  {path: '**', component:EncryptedMsgComponent}
 ];
 
 @NgModule({
