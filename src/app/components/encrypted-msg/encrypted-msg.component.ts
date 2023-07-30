@@ -116,7 +116,7 @@ export class EncryptedMsgComponent implements OnInit {
       const respFile = new Blob([txtResp], { type: 'text/plain' });
       const url = URL.createObjectURL(respFile);
       a.href = url;
-      a.download = 'respuesta.txt';
+      a.download = 'encriptado-resp.txt';
       a.click();
       URL.revokeObjectURL(url);
     }    
