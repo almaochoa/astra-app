@@ -1,6 +1,8 @@
 # Astra APP
 ## Mensajes Encriptados
-## Juegos (Jugador Ganador)
+Ingresar a al menu "Mensajes"
+## Jugador Ganador
+Ingresar a al menu "Juegos"
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.0.
 
