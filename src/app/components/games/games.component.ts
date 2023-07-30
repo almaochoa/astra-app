@@ -48,7 +48,11 @@ export class GamesComponent {
       //toma las lineas del archivo
       let lines = this.content.split('\n');
       let num_rondas = lines[0];
+      let puntos;
       if(lines.length == num_rondas){
+        
+        puntos = this.content.split('\n');  
+
 
       } else {//no existen todas las rondas en el archivo
         this.errors.push('Faltan datos de rondas');
