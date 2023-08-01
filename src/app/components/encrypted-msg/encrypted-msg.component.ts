@@ -224,8 +224,10 @@ export class EncryptedMsgComponent implements OnInit {
 
       for(let i = 0; i < line.length-1; i++){
         if(line[i] == line[i+1]){
-          this.errors.push(`La instruccion ${j} tiene dos letras iguales seguidas`);
-          break;
+          if(line[i+1] != 'r' &&  line[i+1] != 'l'){
+            this.errors.push(`La instruccion ${j} tiene dos letras iguales seguidas`);
+            break;
+          }  
         }  
       }
   }
