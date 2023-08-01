@@ -42,6 +42,8 @@ export class EncryptedMsgComponent implements OnInit {
     onProcessFile(){
 
       this.clearVariables();
+      let msg1founded = false;
+      let msg2founded = false;
 
       //si el archivo tiene contenido
       if(this.content){
@@ -58,25 +60,39 @@ export class EncryptedMsgComponent implements OnInit {
           for(var line=0; line<lines.length; line++){
             if(line == 0)
               this.checkFirstLine(lines[line]);
-            else
-              this.validateAlfaNum(lines[line], line+1);
+            else{
+              if(this.errors.length == 0){//Si no hubo errores con la linea 1
+                this.validateAlfaNum_Qty(lines[line], line+1);
+                //si no hay errores de cantidad o caracteres invalidos
+                //valida si las instrucciones tienen 2 letras iguales seguidas  
+                if(this.errors.length == 0 && (line==1 || line==2)){
+                  this.validateCharTwice(lines[line], line);  
+                }
+              }  
+            }  
           }
 
           if(this.errors.length == 0){//Si el archivo se puede procesar
-            //buscar el primer mensaje
-            if(this.messageFound(lines[1], lines[3], this.lenM1)){
-              this.response.push('SI');
-              this.response.push('NO');
-            } else if(this.messageFound(lines[2], lines[3], this.lenM2)){
-                this.response.push('NO');
+            //busca la primer instruccion
+            msg1founded = this.messageFound(lines[1], lines[3], this.lenM1); 
+            //buca la segunda instruccion
+            msg2founded = this.messageFound(lines[2], lines[3], this.lenM2); 
+            if(msg1founded && msg2founded)
+              this.errors.push("Las dos instrucciones estan en el mensaje, eso es invalido");
+            else {
+              if(msg1founded){
                 this.response.push('SI');
-            } else {
-              this.response.push('NO');
-              this.response.push('NO');                
-            }
-          } else { //si el contenido del archivo no es valido
-            this.response.push('NO');
-            this.response.push('NO');               
+                this.response.push('NO');
+              } else {
+                if(msg2founded){
+                    this.response.push('NO');
+                    this.response.push('SI');
+                } else {
+                  this.response.push('NO');
+                  this.response.push('NO');
+                }
+              }           
+            }  
           }  
         }
       } else {
@@ -125,6 +141,7 @@ export class EncryptedMsgComponent implements OnInit {
    * Inician funciones para validar las lineas
    */
 
+
   /**
    * 
    * @param line:string
@@ -171,14 +188,31 @@ export class EncryptedMsgComponent implements OnInit {
    * @param line 
    * @returns true if message and instructions are alfanumeric string
    */
-  validateAlfaNum(line: string, i:number){
+  validateAlfaNum_Qty(line: string, i:number){
 
-    if(i==2)
-      line = line.substring(0,this.lenM1);
-    if(i==3)
-      line = line.substring(0,this.lenM2);
+    let pos = -1;
+    //busca un salto de linea o retorno de carro
+    pos = line.indexOf('\n');
+    if(pos < 0)
+      pos = line.indexOf('\r');
 
-    console.log(line);  
+    if(pos >= 0){  
+      line = line.substring(0,pos);
+    }
+
+    switch(i){
+      case 2: 
+        if(this.lenM1 != line.length)
+          this.errors.push(`La cantidad de caracteres en la instruccion ${i-1} es distinta a la esperada`);
+        break;
+      case 3:
+        if(this.lenM2 != line.length)
+          this.errors.push(`La cantidad de caracteres en la instruccion ${i-1}  es distinta a la esperada`);
+        break;
+      case 4:
+        if(this.lenN != line.length)
+          this.errors.push(`La cantidad de caracteres del mensaje es distinta a la esperada`);
+    }
  
     const regex = /^([a-zA-Z0-9]+)$/g;
     if(!regex.test(line))
@@ -186,6 +220,15 @@ export class EncryptedMsgComponent implements OnInit {
  
   }
 
+  validateCharTwice(line: string, j:number){
+
+      for(let i = 0; i < line.length-1; i++){
+        if(line[i] == line[i+1]){
+          this.errors.push(`La instruccion ${j} tiene dos letras iguales seguidas`);
+          break;
+        }  
+      }
+  }
   /**
   * This function create a pattern base on msgSearch
   * separating every char and form the expreg to accepte 
